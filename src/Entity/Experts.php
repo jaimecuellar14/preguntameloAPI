@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
+use App\Repository\ExpertsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=UsersRepository::class)
+ * @ORM\Entity(repositoryClass=ExpertsRepository::class)
  */
-class Users
+class Experts
 {
     /**
      * @ORM\Id
@@ -16,11 +16,6 @@ class Users
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -47,6 +42,10 @@ class Users
      */
     private $password;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getFirstName(): ?string
     {
