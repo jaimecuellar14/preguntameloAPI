@@ -21,12 +21,12 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/createUser")
+     * @Route("/createUser",name="createUser")
      */
     public function saveUser(){
         $entityManager = $this->getDoctrine()->getManager();
         $user = new Users();
-        $user->setName('Sebas');
+        $user->setName('ka');
         $entityManager->persist($user);
         $entityManager->flush();
 
@@ -34,13 +34,13 @@ class UserController extends AbstractController
     }
     
     /**
-     * @Route("/getUsers")
+     * @Route("/getUsers",name="getUsers")
      */
 
      public function getUsers(){
          $conn= $this->getDoctrine()->getManager()->getConnection();
 
-         $query="SELECT * FROM users";
+         $query="SELECT nombre FROM users";
          $smtp=$conn->prepare($query);
          $smtp->execute();
 
