@@ -6,6 +6,8 @@ use App\Entity\Users;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+
 
 
 
@@ -51,10 +53,23 @@ class UserController extends AbstractController
      }
 
      /**
-      * @Route("/checkLogin", name="checkLogin", methods={"POST"})
+      * @Route("/login", methods={"POST"}, name="login")
       */
 
       public function checkLogin(Request $request){
-          $params = $request->request->all();
+          $reqBody = json_decode($request->getContent(),true);
+          $email = $reqBody["email"];
+          $pass = $reqBody["pass"];
+          $conn = $this->getDoctrine()->getManager()->getConnection();
+          $query = "SELECT * FROM users WHERE email=:email AND password=:pass";
+          $smtp = $conn->prepare($query);
+          $smtp->execute(['email'=>$email, "pass"=>$pass]);
+          //$response = $smtp->fetchAll();
+          if($smtp->rowCount()>0){
+            $res = array('error'=>0, "message"=>"Login exitoso");
+          }else{
+            $res = array('error'=>1,"message"=>"Credenciales incorrectas");
+          }
+          return new Response(json_encode($res));
       }
 }
