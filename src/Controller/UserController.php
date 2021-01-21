@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+
 class UserController extends AbstractController
 {
     /**
@@ -47,4 +49,12 @@ class UserController extends AbstractController
          $response = $smtp->fetchAll();
          return new Response(json_encode($response));
      }
+
+     /**
+      * @Route("/checkLogin", name="checkLogin", methods={"POST"})
+      */
+
+      public function checkLogin(Request $request){
+          $params = $request->request->all();
+      }
 }
