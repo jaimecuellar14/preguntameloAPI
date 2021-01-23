@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\QuestionsTableRepository;
+use App\Repository\QuestionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=QuestionsTableRepository::class)
+ * @ORM\Entity(repositoryClass=QuestionRepository::class)
  */
-class QuestionsTable
+class Question
 {
     /**
      * @ORM\Id
@@ -28,24 +28,27 @@ class QuestionsTable
     private $question_body;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Users::class)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $from_user;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Experts::class)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $expert;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $status;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $date;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Status::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
 
     public function getId(): ?int
     {
@@ -76,38 +79,26 @@ class QuestionsTable
         return $this;
     }
 
-    public function getFromUser(): ?int
+    public function getFromUser(): ?Users
     {
         return $this->from_user;
     }
 
-    public function setFromUser(int $from_user): self
+    public function setFromUser(?Users $from_user): self
     {
         $this->from_user = $from_user;
 
         return $this;
     }
 
-    public function getExpert(): ?int
+    public function getExpert(): ?Experts
     {
         return $this->expert;
     }
 
-    public function setExpert(int $expert): self
+    public function setExpert(?Experts $expert): self
     {
         $this->expert = $expert;
-
-        return $this;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(int $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
@@ -120,6 +111,18 @@ class QuestionsTable
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
