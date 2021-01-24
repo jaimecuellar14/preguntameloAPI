@@ -64,7 +64,7 @@ class UserController extends AbstractController
           $query = "SELECT * FROM users WHERE email=:email AND password=:pass";
           $smtp = $conn->prepare($query);
           $smtp->execute(['email'=>$email, "pass"=>$pass]);
-          //$response = $smtp->fetchAll();
+          //$response = $smtp->fetchAll();  
           if($smtp->rowCount()>0){
             $res = array('error'=>0, "message"=>"Login exitoso");
           }else{

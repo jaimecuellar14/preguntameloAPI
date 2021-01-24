@@ -14,11 +14,13 @@ class Status
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="App\Entity\QuestionsTable")
+     * @ORM\JoinColumn(name="status",referencedColumnName="id")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=200)
      */
     private $status;
 
