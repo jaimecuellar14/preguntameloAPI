@@ -3,12 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Users;
+use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
+
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     /**
      * @Route("/user", name="user")
      */
@@ -23,14 +33,22 @@ class UserController extends AbstractController
     /**
      * @Route("/createUser")
      */
-    public function saveUser(){
+    public function addUser(Request $request){
+        $data = json_decode($request->getContent(), true);
+
         $entityManager = $this->getDoctrine()->getManager();
-        $user = new Users();
-        $user->setName('Sebas');
+        $user = new User();
+        $user
+            ->setFirstName($data['firstname'])
+            ->setLastName($data['lastname'])
+            ->setPhoneNumber($data['phoneNumber'])
+            ->setEmail($data['email'])
+            ->setPassword($this->passwordEncoder->encodePassword($user, $data['password']));
+
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return new Response("Se creo un usuario");
+        return new Response("Request has been successful");
     }
     
     /**
