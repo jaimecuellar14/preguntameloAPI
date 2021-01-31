@@ -34,17 +34,25 @@ class UserController extends AbstractController
     }
     
     /**
-     * @Route("/getUsers")
+     * @Route("/api/getUsers")
      */
 
      public function getUsers(){
          $conn= $this->getDoctrine()->getManager()->getConnection();
 
-         $query="SELECT * FROM users";
+         $query="SELECT * FROM user";
          $smtp=$conn->prepare($query);
          $smtp->execute();
 
          $response = $smtp->fetchAll();
          return new Response(json_encode($response));
+     }
+
+//     Just for the moment
+    /**
+     * @Route("/api/dashboard")
+     */
+     public function dashboard(){
+        return new Response('<h1>Just for testing login</h1>');
      }
 }

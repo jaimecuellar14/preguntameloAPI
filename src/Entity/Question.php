@@ -28,7 +28,7 @@ class Question
     private $question_body;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Users::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $from_user;
@@ -79,12 +79,12 @@ class Question
         return $this;
     }
 
-    public function getFromUser(): ?Users
+    public function getFromUser(): ?User
     {
         return $this->from_user;
     }
 
-    public function setFromUser(?Users $from_user): self
+    public function setFromUser(?User $from_user): self
     {
         $this->from_user = $from_user;
 
