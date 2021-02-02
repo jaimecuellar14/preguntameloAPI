@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Users;
-use http\Env\Request;
+use App\Entity\User;
+//use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -31,7 +32,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/createUser")
+     * @Route("/api/createUser", methods={"POST"}, name="addUser")
      */
     public function addUser(Request $request){
         $data = json_decode($request->getContent(), true);
